@@ -1,0 +1,16 @@
+{
+   Addr4
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/iris_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/iris_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/iris_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/iris_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/iris_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/iris_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   fun:glXCreateContext
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.10.0
+}
