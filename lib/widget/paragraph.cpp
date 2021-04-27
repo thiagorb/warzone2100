@@ -100,27 +100,18 @@ private:
 
         while (current < end)
         {
-            long long fragmentFits;
-
-            if (nextOffset + partialWordWidth + elementDescriptor.getWidth(current, end - current) > maxWidth)
-            // fragment doesn't fit completely in the current line
+            auto width = elementDescriptor.getWidth(current, 1);
+            long long fragmentFits = current + 1;
+            while (fragmentFits < end)
             {
-                fragmentFits = current - 1;
-                size_t fragmentDoesntFit = end;
-                while (fragmentDoesntFit - fragmentFits > 1)
+                auto nextWidth = width + elementDescriptor.getWidth(fragmentFits, 1);
+                if (nextOffset + partialWordWidth + nextWidth > maxWidth)
                 {
-                    auto middle = (fragmentFits + fragmentDoesntFit) / 2;
-                    if (nextOffset + partialWordWidth + elementDescriptor.getWidth(current, middle - current) > maxWidth)
-                    {
-                        fragmentDoesntFit = middle;
-                    } else {
-                        fragmentFits = middle;
-                    }
+                    break;
                 }
-            }
-            else
-            {
-                fragmentFits = end;
+
+                width = nextWidth;
+                fragmentFits++;
             }
 
             auto whitespacePosition = fragmentFits + 1;
