@@ -206,13 +206,13 @@ ScriptMapData runMapScript(WzString const &path, uint64_t seed, bool preview);
 
 struct LABEL
 {
-	Vector2i p1, p2;	// world coordinates
-	int id;
+	Vector2i p1{0, 0}, p2{0, 0};	// world coordinates
+	int id = -1;
 	int type;
-	int player;
-	int subscriber;
+	int player = -1;
+	int subscriber = -1;
 	std::vector<int> idlist;
-	int triggered;
+	int triggered = -1;
 
 	bool operator==(const LABEL &o) const
 	{
