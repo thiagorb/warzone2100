@@ -1320,16 +1320,17 @@ static void sound_DestroyStream(AUDIO_STREAM *stream)
 	}
 
 	// Detach all buffers and retrieve their ID numbers
-	if (buffer_count > 0)
+	const int64_t buffersSize = buffer_count * sizeof(ALuint);
+	if (buffersSize > 0)
 	{
-		if (buffer_count <= (1024 / sizeof(ALuint))) // See CMakeLists.txt for value of -Walloca-larger-than=<N>
+		if (buffersSize <= 1024) // See CMakeLists.txt for value of -Walloca-larger-than=<N>
 		{
-			buffers = (ALuint *)alloca(buffer_count * sizeof(ALuint));
+			buffers = (ALuint *)alloca(buffersSize);
 		}
 		else
 		{
 			// Too many buffers - don't allocate on the stack!
-			buffers = (ALuint *)malloc(buffer_count * sizeof(ALuint));
+			buffers = (ALuint *)malloc(buffersSize);
 			freeBuffers = true;
 		}
 		alSourceUnqueueBuffers(stream->source, buffer_count, buffers);
