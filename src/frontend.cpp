@@ -50,6 +50,7 @@
 #include "droid.h"
 #include "frend.h"
 #include "frontend.h"
+#include "gridtest.h"
 #include "group.h"
 #include "hci.h"
 #include "init.h"
@@ -135,6 +136,11 @@ static void moveToParentRightEdge(WIDGET *widget, int32_t right)
 // Title Screen
 void startTitleMenu()
 {
+	if (gridtest())
+	{
+		return;
+	}
+
 	intRemoveReticule();
 
 	addBackdrop();

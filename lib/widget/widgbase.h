@@ -30,6 +30,7 @@
 #include <vector>
 #include <functional>
 #include <string>
+#include <optional-lite/optional.hpp>
 #include "lib/framework/geometry.h"
 #include "lib/framework/wzstring.h"
 
@@ -295,6 +296,26 @@ public:
 	void setTransparentToClicks(bool hasClickTransparency);
 	bool transparentToClicks() const;
 
+	virtual int32_t idealWidth()
+	{
+		if (!defaultIdealWidth.has_value())
+		{
+			defaultIdealWidth = width();
+		}
+
+		return defaultIdealWidth.value();
+	}
+
+	virtual int32_t idealHeight()
+	{
+		if (!defaultIdealHeight.has_value())
+		{
+			defaultIdealHeight = height();
+		}
+
+		return defaultIdealHeight.value();
+	}
+
 	UDWORD                  id;                     ///< The user set ID number for the widget. This is returned when e.g. a button is pressed.
 	WIDGET_TYPE             type;                   ///< The widget type
 	UDWORD                  style;                  ///< The style of the widget
@@ -329,6 +350,8 @@ private:
 
 	WIDGET(WIDGET const &) = delete;
 	WIDGET &operator =(WIDGET const &) = delete;
+	nonstd::optional<int32_t> defaultIdealWidth;
+	nonstd::optional<int32_t> defaultIdealHeight;
 
 public:
 	bool dirty; ///< Whether widget is changed and needs to be redrawn

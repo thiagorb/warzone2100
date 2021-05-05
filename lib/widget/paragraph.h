@@ -99,6 +99,7 @@ struct FlowLayoutFragment
 class Paragraph : public WIDGET
 {
 public:
+	Paragraph(): WIDGET() {}
 	Paragraph(W_INIT const *init);
 
 	void addText(std::string const &text);

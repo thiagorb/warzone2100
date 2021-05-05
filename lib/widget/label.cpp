@@ -59,13 +59,6 @@ int W_LABEL::setFormattedString(WzString string, uint32_t MaxWidth, iV_fonts fon
 	FontID = fontID;
 	aTextLines = iV_FormatText(string.toUtf8().c_str(), MaxWidth, FTEXT_LEFTJUSTIFY, fontID, ignoreNewlines);
 
-	int requiredHeight = 0;
-	if (!aTextLines.empty())
-	{
-		requiredHeight = aTextLines.back().offset.y + iV_GetTextLineSize(fontID);
-		requiredHeight += ((static_cast<int>(aTextLines.size()) - 1) * lineSpacing);
-	}
-
 	maxLineWidth = 0;
 	for (const auto& line : aTextLines)
 	{
@@ -78,7 +71,14 @@ int W_LABEL::setFormattedString(WzString string, uint32_t MaxWidth, iV_fonts fon
 		displayCache.wzText.push_back(WzCachedText(aTextLines[idx].text, FontID, LABEL_DEFAULT_CACHE_EXPIRY));
 	}
 
-	return requiredHeight;
+	return requiredHeight();
+}
+
+int W_LABEL::requiredHeight()
+{
+	return aTextLines.empty()
+		? 0
+		: aTextLines.back().offset.y + iV_GetTextLineSize(FontID) + ((static_cast<int>(aTextLines.size()) - 1) * lineSpacing);
 }
 
 #ifdef DEBUG_BOUNDING_BOXES
