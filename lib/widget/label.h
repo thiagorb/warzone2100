@@ -85,6 +85,16 @@ public:
 
 	int requiredHeight();
 
+	int32_t idealWidth()
+	{
+		return getMaxLineWidth();
+	}
+
+	int32_t idealHeight()
+	{
+		return requiredHeight();
+	}
+
 private:
 	std::vector<TextLine> aTextLines;   // text lines on the label
 	int maxLineWidth = -1;
