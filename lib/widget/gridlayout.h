@@ -24,61 +24,22 @@
 #include <map>
 #include <set>
 #include "widget.h"
+#include "gridallocation.h"
 
 class GridLayout: public WIDGET
 {
 public:
-	struct Slot
-	{
-		Slot(uint32_t start = 0, uint32_t span = 1, bool expandable = true);
-		uint32_t start;
-		uint32_t span;
-		bool expandable;
-	};
-
 	struct Placement
 	{
 	public:
-		Placement(Slot column, Slot row, std::shared_ptr<WIDGET> widget);
-		Slot column;
-		Slot row;
+		Placement(grid_allocation::slot column, grid_allocation::slot row, std::shared_ptr<WIDGET> widget);
+		grid_allocation::slot column;
+		grid_allocation::slot row;
 		std::shared_ptr<WIDGET> widget;
 	};
 
-	class Allocation
-	{
-	public:
-		struct Item
-		{
-			GridLayout::Slot slot;
-			int32_t idealSize;
-
-			uint32_t start() const;
-			uint32_t end() const;
-		};
-
-		Allocation(std::vector<Item> items);
-		std::map<uint32_t, int32_t> calculateOffsets(int32_t availableSpace);
-		int getMinimumSizeRequired();
-
-	private:
-		void sortItems();
-		void initializeSlots();
-		void initializeExpandableSlots();
-		void initializeMinimumSizes();
-		void initializeRigidSlots();
-		void initializeMinimumOffsets();
-
-		std::vector<Item> items;
-		std::map<std::pair<uint32_t, uint32_t>, int> minimumSizes;
-		std::map<uint32_t, bool> rigidSlots;
-		std::set<uint32_t> slots;
-		std::map<uint32_t, int32_t> minimumOffsets;
-		uint32_t expandableSlots;
-	};
-
 	GridLayout();
-	void place(Slot columnAllocation, Slot rowAllocation, std::shared_ptr<WIDGET> widget);
+	void place(grid_allocation::slot columnAllocation, grid_allocation::slot rowAllocation, std::shared_ptr<WIDGET> widget);
 	int32_t idealWidth();
 	int32_t idealHeight();
 	nonstd::optional<std::vector<uint32_t>> getScrollSnapOffsets() override;
@@ -88,14 +49,20 @@ protected:
 	void geometryChanged() override;
 
 private:
+	typedef std::function<grid_allocation::item(const GridLayout::Placement)> PlacementTransformer;
+
 	void updateLayout();
+	void invalidateLayout();
 	void invalidateAllocation();
+	std::vector<grid_allocation::item> getAllocationItems(PlacementTransformer placementTransformer);
+	static grid_allocation::item placementColumn(GridLayout::Placement placement);
+	static grid_allocation::item placementRow(GridLayout::Placement placement);
 
-	Allocation &getColumnAllocation();
-	Allocation &getRowAllocation();
+	grid_allocation::allocator &getColumnAllocator();
+	grid_allocation::allocator &getRowAllocator();
 
-	nonstd::optional<Allocation> columnAllocation;
-	nonstd::optional<Allocation> rowAllocation;
+	nonstd::optional<grid_allocation::allocator> columnAllocation;
+	nonstd::optional<grid_allocation::allocator> rowAllocation;
 	std::vector<Placement> placements;
 	bool layoutDirty = false;
 	std::vector<uint32_t> scrollSnapOffsets;

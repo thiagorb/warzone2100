@@ -78,6 +78,12 @@
 #include "map.h" //for builtInMap
 #include "notifications.h"
 
+// todo: remove experimental test
+#include "lib/widget/alignment.h"
+#include "lib/widget/image.h"
+#include "lib/widget/tree.h"
+#include "gridtest.h"
+
 // ////////////////////////////////////////////////////////////////////////////
 // Global variables
 
@@ -138,6 +144,12 @@ static void moveToParentRightEdge(WIDGET *widget, int32_t right)
 // Title Screen
 void startTitleMenu()
 {
+	// todo: remove experimental test
+	if (gridtest())
+	{
+		return;
+	}
+
 	intRemoveReticule();
 
 	addBackdrop();
@@ -1388,6 +1400,29 @@ static std::shared_ptr<WIDGET> makeResolutionDropdown()
 	return margin;
 }
 
+// todo: remove experimental test
+static void addCoolStuff(std::shared_ptr<GridLayout> &grid)
+{
+	grid->place(
+		{0, 2},
+		{7},
+		WidgetTree
+		{
+			std::make_shared<AlignmentWidget>(VerticalAlignment::Center, HorizontalAlignment::Center),
+			{{
+				std::make_shared<MarginWidget>(30),
+				{{
+					std::make_shared<ImageWidget>(iV_GetImage("image_build_down.png"))
+				}}
+			}}
+		}
+	);
+	grid->place({0, 2}, {8}, addMargin(makeTextButton(0, "This space can be used", WBUT_SECONDARY)));
+	grid->place({0, 2}, {9}, addMargin(makeTextButton(0, "to add as many new configurations", WBUT_SECONDARY)));
+	grid->place({0, 2}, {10}, addMargin(makeTextButton(0, "as necessary, or to reorganize", WBUT_SECONDARY)));
+	grid->place({0, 2}, {11}, addMargin(makeTextButton(0, "the menus completely.", WBUT_SECONDARY)));
+}
+
 void startVideoOptionsMenu()
 {
 	addBackdrop();
@@ -1460,6 +1495,9 @@ void startVideoOptionsMenu()
 	// Gfx Backend
 	grid->place({0}, {6}, addMargin(makeTextButton(FRONTEND_GFXBACKEND, _("Graphics Backend*"), WBUT_SECONDARY)));
 	grid->place({1, 1, false}, {6}, addMargin(makeTextButton(FRONTEND_GFXBACKEND_R, videoOptionsGfxBackendString(), WBUT_SECONDARY)));
+
+	// todo: remove experimental test
+	addCoolStuff(grid);
 
 	grid->setGeometry(0, 0, FRONTEND_BUTWIDTH, grid->idealHeight());
 
