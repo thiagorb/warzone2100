@@ -78,6 +78,12 @@
 #include "map.h" //for builtInMap
 #include "notifications.h"
 
+// todo: remove debug code
+#include "lib/widget/alignment.h"
+#include "lib/widget/image.h"
+#include "lib/widget/tree.h"
+#include "gridtest.h"
+
 // ////////////////////////////////////////////////////////////////////////////
 // Global variables
 
@@ -139,6 +145,12 @@ static void moveToParentRightEdge(WIDGET *widget, int32_t right)
 // Title Screen
 void startTitleMenu()
 {
+	// todo: remove debug code
+	if (gridtest())
+	{
+		return;
+	}
+
 	intRemoveReticule();
 
 	addBackdrop();
@@ -1391,6 +1403,34 @@ private:
 	}
 };
 
+// todo: remove debug code
+static void addCoolStuff(std::shared_ptr<GridLayout> &grid, grid_allocation::slot& row)
+{
+	grid->place(
+		{0, 2},
+		row,
+		WidgetTree
+		{
+			std::make_shared<AlignmentWidget>(VerticalAlignment::Center, HorizontalAlignment::Center),
+			{{
+				std::make_shared<MarginWidget>(30),
+				{{
+					std::make_shared<ImageWidget>(iV_GetImage("image_build_down.png"))
+				}}
+			}}
+		}
+	);
+	row.start++;
+	grid->place({0, 2}, row, addMargin(makeTextButton(0, "This space can be used", WBUT_SECONDARY)));
+	row.start++;
+	grid->place({0, 2}, row, addMargin(makeTextButton(0, "to add as many new configurations", WBUT_SECONDARY)));
+	row.start++;
+	grid->place({0, 2}, row, addMargin(makeTextButton(0, "as necessary, or to reorganize", WBUT_SECONDARY)));
+	row.start++;
+	grid->place({0, 2}, row, addMargin(makeTextButton(0, "the menus completely.", WBUT_SECONDARY)));
+	row.start++;
+}
+
 void refreshCurrentVideoOptionsValues()
 {
 	widgSetString(psWScreen, FRONTEND_WINDOWMODE_R, videoOptionsWindowModeString());
@@ -1531,6 +1571,9 @@ void startVideoOptionsMenu()
 	grid->place({0}, row, addMargin(makeTextButton(FRONTEND_GFXBACKEND, _("Graphics Backend*"), WBUT_SECONDARY)));
 	grid->place({1, 1, false}, row, addMargin(makeTextButton(FRONTEND_GFXBACKEND_R, videoOptionsGfxBackendString(), WBUT_SECONDARY)));
 	row.start++;
+
+	// todo: remove debug code
+	addCoolStuff(grid, row);
 
 	grid->setGeometry(0, 0, FRONTEND_BUTWIDTH, grid->idealHeight());
 
