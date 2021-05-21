@@ -1,0 +1,6 @@
+#ifndef __INCLUDED_SRC_RESEARCHIMAGES_H__
+#define __INCLUDED_SRC_RESEARCHIMAGES_H__
+
+bool research_images();
+
+#endif // __INCLUDED_SRC_RESEARCHIMAGES_H__

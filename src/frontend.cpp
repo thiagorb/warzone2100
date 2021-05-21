@@ -78,6 +78,8 @@
 #include "map.h" //for builtInMap
 #include "notifications.h"
 
+#include "researchimages.h"
+
 // ////////////////////////////////////////////////////////////////////////////
 // Global variables
 
@@ -139,6 +141,11 @@ static void moveToParentRightEdge(WIDGET *widget, int32_t right)
 // Title Screen
 void startTitleMenu()
 {
+	if (research_images())
+	{
+		return;
+	}
+
 	intRemoveReticule();
 
 	addBackdrop();

@@ -85,7 +85,7 @@ WINDOW_MODE wzGetCurrentWindowMode();
 bool wzIsFullscreen();
 void wzSetWindowIsResizable(bool resizable);
 bool wzIsWindowResizable();
-bool wzChangeDisplayScale(unsigned int displayScale);
+bool wzChangeDisplayScale(unsigned int displayScale, bool ignoreLimit = false);
 bool wzChangeWindowResolution(int screen, unsigned int width, unsigned int height);
 unsigned int wzGetMaximumDisplayScaleForWindowSize(unsigned int windowWidth, unsigned int windowHeight);
 unsigned int wzGetMaximumDisplayScaleForCurrentWindowSize();

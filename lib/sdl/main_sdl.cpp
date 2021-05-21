@@ -1770,7 +1770,7 @@ unsigned int wzGetDefaultBaseDisplayScale(int displayIndex)
 #endif
 }
 
-bool wzChangeDisplayScale(unsigned int displayScale)
+bool wzChangeDisplayScale(unsigned int displayScale, bool ignoreLimit)
 {
 	if (WZwindow == nullptr)
 	{
@@ -1780,7 +1780,7 @@ bool wzChangeDisplayScale(unsigned int displayScale)
 
 	float newDisplayScaleFactor = (float)displayScale / 100.f;
 
-	if (wzWindowSizeIsSmallerThanMinimumRequired(windowWidth, windowHeight, newDisplayScaleFactor))
+	if (!ignoreLimit && wzWindowSizeIsSmallerThanMinimumRequired(windowWidth, windowHeight, newDisplayScaleFactor))
 	{
 		// The current window width and/or height are below the required minimum window size
 		// for this display scale factor.

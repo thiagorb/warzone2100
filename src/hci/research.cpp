@@ -10,7 +10,7 @@
 #include "../mission.h"
 
 STRUCTURE *ResearchController::highlightedFacility = nullptr;
-static ImdObject getResearchObjectImage(RESEARCH *research);
+ImdObject getResearchObjectImage(RESEARCH *research);
 
 void ResearchController::updateData()
 {
@@ -695,7 +695,7 @@ void ResearchController::requestResearchCancellation(STRUCTURE *facility)
 	audio_PlayTrack(ID_SOUND_WINDOWCLOSE);
 }
 
-static ImdObject getResearchObjectImage(RESEARCH *research)
+ImdObject getResearchObjectImage(RESEARCH *research)
 {
 	BASE_STATS *psResGraphic = research->psStat;
 
