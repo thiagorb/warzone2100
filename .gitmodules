@@ -37,3 +37,7 @@
 [submodule "3rdparty/SQLiteCpp"]
 	path = 3rdparty/SQLiteCpp
 	url = https://github.com/SRombauts/SQLiteCpp.git
+[submodule "Catch2"]
+	path = 3rdparty/Catch2
+	url = git@github.com:catchorg/Catch2.git
+	branch = v2.x
